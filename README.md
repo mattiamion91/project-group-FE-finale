@@ -130,5 +130,8 @@ This repository contains only the frontend. To run the full application you need
 Project developed by the FE group for the final course.
 
 ---
+<<<<<<< HEAD
 
 *README automatically generated on 2026-08-24*
+=======
+>>>>>>> a3d05da6b0b48a0656bb47ee1b154764167785be
