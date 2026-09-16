@@ -150,37 +150,79 @@ function SearchPage() {
                             {isGridActive ? "Vista Lista" : "Vista Griglia"}
                         </button>
                     </div>
-                    <div className={isGridActive ? "home-container" : "list-layout"}>
-                        {searchedItems.map(item => {
-                            const { price, finalPrice, isOnSale } = getProductPricing(item);
-                            return (
-                                <div className={isGridActive ? "card-container" : "list-item"} key={item.id}>
-                                    <div className="img-container">
-                                        <img className="card-image" src={item.image} alt={item.name} />
-                                    </div>
-                                    {isGridActive || (<p className="description-container">{item.descriptions}</p>)}
-                                    <div className="text-container">
-                                        <Link className="card-link" to={`/product/${item.slug}`}>{item.name}</Link>
-                                        <div className="card-weight-button-container">
-                                            <div className="card-weight">{item.weight} g</div>
-                                            <div className="card-button-container">
-                                                <button className="card-button" onClick={() => addToCart(item)}><FaCartPlus /></button>
-                                                <button className="card-button" onClick={() => addToWishlist(item)}><FaHeart /></button>
+                    {isGridActive ? (
+                        <>
+                            <div className="container">
+                                <div className="row">
+                                    {searchedItems.map(item => {
+                                        const { price, finalPrice, isOnSale } = getProductPricing(item);
+                                        return (
+                                            <div key={item.id} className="col-md-3 col-sm-6 col-12 mb-4">
+                                                <div className="card-container">
+                                                    <div className="img-container">
+                                                        <img className="card-image" src={item.image} alt={item.name} />
+                                                    </div>
+                                                    {isGridActive || (<p className="description-container">{item.descriptions}</p>)}
+                                                    <div className="text-container">
+                                                        <Link className="card-link" to={`/product/${item.slug}`}>{item.name}</Link>
+                                                        <div className="card-weight-button-container">
+                                                            <div className="card-weight">{item.weight} g</div>
+                                                            <div className="card-button-container">
+                                                                <button className="card-button" onClick={() => addToCart(item)}><FaCartPlus /></button>
+                                                                <button className="card-button" onClick={() => addToWishlist(item)}><FaHeart /></button>
+                                                            </div>
+                                                        </div>
+                                                        <div className="card-price">
+                                                            Prezzo: {isOnSale ? (
+                                                                <>
+                                                                    <span style={{ textDecoration: 'line-through', color: '#999' }}>€{price.toFixed(2)}</span>{' '}
+                                                                    <span style={{ color: 'red' }}>€{finalPrice.toFixed(2)}</span>
+                                                                </>
+                                                            ) : <>€{price.toFixed(2)}</>}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )
+                                    }
+                                    )}
+                                </div>
+                            </div>
+                        </>
+                    ) : (
+                        <div className="list-layout">
+                            {searchedItems.map(item => {
+                                const { price, finalPrice, isOnSale } = getProductPricing(item);
+                                return (
+                                    <div className="list-item" key={item.id}>
+                                        <div className="img-container">
+                                            <img className="card-image" src={item.image} alt={item.name} />
+                                        </div>
+                                        <p className="description-container">{item.descriptions}</p>
+                                        <div className="text-container">
+                                            <Link className="card-link" to={`/product/${item.slug}`}>{item.name}</Link>
+                                            <div className="card-weight-button-container">
+                                                <div className="card-weight">{item.weight} g</div>
+                                                <div className="card-button-container">
+                                                    <button className="card-button" onClick={() => addToCart(item)}><FaCartPlus /></button>
+                                                    <button className="card-button" onClick={() => addToWishlist(item)}><FaHeart /></button>
+                                                </div>
+                                            </div>
+                                            <div className="card-price">
+                                                Prezzo: {isOnSale ? (
+                                                    <>
+                                                        <span style={{ textDecoration: 'line-through', color: '#999' }}>€{price.toFixed(2)}</span>{' '}
+                                                        <span style={{ color: 'red' }}>€{finalPrice.toFixed(2)}</span>
+                                                    </>
+                                                ) : <>€{price.toFixed(2)}</>}
                                             </div>
                                         </div>
-                                        <div className="card-price">
-                                            Prezzo: {isOnSale ? (
-                                                <>
-                                                    <span style={{ textDecoration: 'line-through', color: '#999' }}>€{price.toFixed(2)}</span>{' '}
-                                                    <span style={{ color: 'red' }}>€{finalPrice.toFixed(2)}</span>
-                                                </>
-                                            ) : <>€{price.toFixed(2)}</>}
-                                        </div>
                                     </div>
-                                </div>
-                            );
-                        })}
-                    </div>
+                                )
+                            }
+                            )}
+                        </div>
+                    )}
                 </div>
             ) : (<p>Nessun prodotto trovato </p>)}
         </main>

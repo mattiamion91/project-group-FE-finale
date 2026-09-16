@@ -21,7 +21,7 @@ function RegionProductPage() {
     //ricaviamo l'id dall'url di rotta
     const { name } = useParams();
 
-    //salviamo un'istanza di useNavigate per poterlo poi utilizzare 
+    //salviamo un'istanza di useNavigate per poterlo poi utilizzare
     const redirect = useNavigate();
 
     //creazione varibile endpoint in un salvare l'API
@@ -77,20 +77,20 @@ function RegionProductPage() {
 
     return (
         <main>
-
             <h2 className="region-product-subtitle">Prodotti della regione: {decodeURIComponent(name)}</h2>
-            <div className="region-product-container">
-                {products
-                    //mescola l'array
-                    .sort(() => Math.random() - 0.5)
-                    .map(product => {
-                        return (
-                            <ProductCard
-                                key={product.id}
-                                product={product}
-                            />
-                        )
-                    })}
+            <div className="container">
+                <div className="row">
+                    {products
+                        //mescola l'array
+                        .sort(() => Math.random() - 0.5)
+                        .map(product => {
+                            return (
+                                <div key={product.id} className="col-md-3 col-sm-6 col-12 mb-4">
+                                    <ProductCard key={product.id} product={product} />
+                                </div>
+                            )
+                        })}
+                </div>
             </div>
             <div className="region-navigation">
                 <Link className="nav-button" to="/">

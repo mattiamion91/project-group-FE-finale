@@ -10,7 +10,7 @@ import { useGlobal } from "../context/GlobalContext";
 //import Link di connessione rotte, useParams e useNavigate
 import { Link, useParams, useNavigate } from "react-router-dom"
 
-// import del component card prodotto
+//import del component card prodotto
 import ProductCardDetails from "../components/ProductCardDetails";
 
 //import react icons
@@ -26,7 +26,7 @@ function ProductPage() {
     //ricaviamo l'id dall'url di rotta
     const { id } = useParams();
 
-    //salviamo un'istanza di useNavigate per poterlo poi utilizzare 
+    //salviamo un'istanza di useNavigate per poterlo poi utilizzare
     const redirect = useNavigate();
 
     //creiamo una varibile di stato come un oggetto vuoto per i prodotti
@@ -82,95 +82,98 @@ function ProductPage() {
     }, [product]);
 
     return (
-
         <main>
-            {product && <ProductCardDetails product={product} />}
+            <div className="container">
+                <div className="row">
+                    <div className="col-12">
+                        {product && <ProductCardDetails product={product} />}
+                    </div>
+                </div>
+            </div>
 
             {relatedProducts.length > 0 && (
                 <>
-                    <h2
-                        className="related-product-title"
-                    >Prodotti correlati</h2>
+                    <h2 className="related-product-title">Prodotti correlati</h2>
+                    <div className="container">
+                        <div className="row">
+                            {relatedProducts.map(p => {
+                                // calcoliamo i prezzi aggiornati con eventuali sconti
+                                const { price, finalPrice, discount, isOnSale } = getProductPricing(p);
 
-                    <div className="related-products">
-                        {relatedProducts.map(p => {
-                            // calcoliamo i prezzi aggiornati con eventuali sconti
-                            const { price, finalPrice, discount, isOnSale } = getProductPricing(p);
+                                return (
+                                    <div key={p.id} className="col-md-3 col-sm-6 col-12 mb-4">
+                                        <div className="related-card">
 
-                            return (
-                                <div key={p.id} className="related-card">
+                                            <div className="related-card-title-container">
+                                                {isOnSale ? (
+                                                    // se c'è sconto, mostriamo prezzo originale barrato e prezzo scontato
+                                                    <div className="related-card-price-button-container">
+                                                        <h4>
+                                                            <span style={{ textDecoration: 'line-through', color: '#999' }}>
+                                                                €{price.toFixed(2)}
+                                                            </span>{' '}
+                                                            <span style={{ color: 'red' }}>
+                                                                €{finalPrice.toFixed(2)}
+                                                            </span>/{p.weight}g
+                                                        </h4>
+                                                        <div className="card-button-container">
+                                                            <button
+                                                                className="card-button"
+                                                                onClick={() => addToCart(p)}>
+                                                                <FaCartPlus />
+                                                            </button>
 
-                                    <div className="related-card-title-container">
-                                        {isOnSale ? (
-                                            // se c'è sconto, mostriamo prezzo originale barrato e prezzo scontato
-                                            <div className="related-card-price-button-container">
-                                                <h4>
-                                                    <span style={{ textDecoration: 'line-through', color: '#999' }}>
-                                                        €{price.toFixed(2)}
-                                                    </span>{' '}
-                                                    <span style={{ color: 'red' }}>
-                                                        €{finalPrice.toFixed(2)}
-                                                    </span>/{p.weight}g
+                                                            <button
+                                                                className="card-button"
+                                                                onClick={() => addToWishlist(p)}>
+                                                                <FaHeart />
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    // altrimenti mostriamo solo il prezzo normale
+                                                    <div className="related-card-price-button-container">
+                                                        <h4>€{price.toFixed(2)} / {p.weight}g</h4>
+                                                        <div className="card-button-container">
+                                                            <button
+                                                                className="card-button"
+                                                                onClick={() => addToCart(p)}>
+                                                                <FaCartPlus />
+                                                            </button>
+
+                                                            <button
+                                                                className="card-button"
+                                                                onClick={() => addToWishlist(p)}>
+                                                                <FaHeart />
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            <Link
+                                                className="related-card-link"
+                                                to={`/product/${p.slug}`}>
+                                                <h4
+                                                    className="related-card-title">
+                                                 {p.name}
                                                 </h4>
-                                                <div className="card-button-container">
-                                                    <button
-                                                        className="card-button"
-                                                        onClick={() => addToCart(product)}>
-                                                        <FaCartPlus />
-                                                    </button>
-
-                                                    <button
-                                                        className="card-button"
-                                                        onClick={() => addToWishlist(product)}>
-                                                        <FaHeart />
-                                                    </button>
+                                            </Link>
+                                            <Link
+                                                to={`/product/${p.slug}`}>
+                                                <div className="related-card-img-container">
+                                                    <img
+                                                        className="related-card-img"
+                                                        src={p.image} alt={p.name} />
                                                 </div>
-                                            </div>
-                                        ) : (
-                                            // altrimenti mostriamo solo il prezzo normale
-                                            <div className="related-card-price-button-container">
-                                                <h4>€{price.toFixed(2)} / {p.weight}g</h4>
-                                                <div className="card-button-container">
-                                                    <button
-                                                        className="card-button"
-                                                        onClick={() => addToCart(product)}>
-                                                        <FaCartPlus />
-                                                    </button>
-
-                                                    <button
-                                                        className="card-button"
-                                                        onClick={() => addToWishlist(product)}>
-                                                        <FaHeart />
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        )}
-                                        <Link
-                                            className="related-card-link"
-                                            to={`/product/${p.slug}`}>
-                                            <h4
-                                                className="related-card-title"
-                                            > {p.name}
-                                            </h4>
-                                        </Link>
-                                    </div>
-                                    <Link
-                                        to={`/product/${p.slug}`}>
-                                        <div className="related-card-img-container">
-                                            <img
-                                                className="related-card-img"
-                                                src={p.image} alt={p.name} />
+                                                
+                                            </Link></div>
                                         </div>
-                                    </Link>
-                                </div>
-
-                            )
-                        })}
+                                    </div>
+                                )
+                            })}
+                        </div>
                     </div>
                 </>
-            )
-            }
-
+            )}
         </main >
     )
 }

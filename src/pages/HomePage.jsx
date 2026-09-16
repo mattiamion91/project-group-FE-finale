@@ -30,7 +30,7 @@ function HomePage() {
     //var prodotti random
     const [randomProducts, setRandomProducts] = useState([]);
 
-    //creo una varibile di stato per i prodotti in promozione 
+    //creo una varibile di stato per i prodotti in promozione
     const [discountedProducts, setDiscountedProducts] = useState([]);
 
     function fetchFavorites() {
@@ -144,33 +144,49 @@ function HomePage() {
                 {onlyDiscounted ? (
                     <>
                         <h2 className="home-subtitle">Prodotti in promozione</h2>
-                        <div className="home-container">
-                            {discountedProducts.map(product => (
-                                <ProductCard key={product.id} product={product} />
-                            ))}
+                        <div className="container">
+                            <div className="row">
+                                {discountedProducts.map(product => (
+                                    <div key={product.id} className="col-md-3 col-sm-6 col-12 mb-4">
+                                        <ProductCard key={product.id} product={product} />
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </>
                 ) : (
                     <>
                         <h2 className="home-subtitle">Tavola dei preferiti</h2>
-                        <div className="home-container">
-                            {favorites.map(product => (
-                                <ProductCard key={product.id} product={product} />
-                            ))}
+                        <div className="container">
+                            <div className="row">
+                                {favorites.map(product => (
+                                    <div key={product.id} className="col-md-3 col-sm-6 col-12 mb-4">
+                                        <ProductCard key={product.id} product={product} />
+                                    </div>
+                                ))}
+                            </div>
                         </div>
 
                         <h2 className="home-subtitle">Tavola degli oli</h2>
-                        <div className="home-container">
-                            {oils.map(product => (
-                                <ProductCard key={product.id} product={product} />
-                            ))}
+                        <div className="container">
+                            <div className="row">
+                                {oils.map(product => (
+                                    <div key={product.id} className="col-md-3 col-sm-6 col-12 mb-4">
+                                        <ProductCard key={product.id} product={product} />
+                                    </div>
+                                ))}
+                            </div>
                         </div>
 
                         <h2 className="home-subtitle">Tavola imbandita</h2>
-                        <div className="home-container">
-                            {randomProducts.map(product => (
-                                <ProductCard key={product.id} product={product} />
-                            ))}
+                        <div className="container">
+                            <div className="row">
+                                {randomProducts.map(product => (
+                                    <div key={product.id} className="col-md-3 col-sm-6 col-12 mb-4">
+                                        <ProductCard key={product.id} product={product} />
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </>
                 )}

@@ -4,6 +4,7 @@ import { NavLink, useLocation } from "react-router-dom"
 import SearchBar from "./SearchBar"
 //import useGlobal per accedere al contesto globale
 import { useGlobal } from "../context/GlobalContext";
+import { useState } from "react";
 
 function MainHeader() {
 
@@ -13,48 +14,87 @@ function MainHeader() {
     //uso useLocation per ottenere informazioni sulla posizione attuale dell'utente
     const location = useLocation();
 
-    return (
-        <header>
-            <ul className="header-link-container">
-                <li>
-                    <NavLink
-                        className="header-link"
-                        to={"/"}>
-                        Home
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink
-                        className="header-link"
-                        to={"/wishlist"}>
-                        Lista dei desideri
-                        {wishlistItemCount > 0 && (
-                            <span className="header-badge">{wishlistItemCount}</span>
-                        )}
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink
-                        className="header-link"
-                        to={"/cart"}>
-                        Carrello
-                        {cartItemCount > 0 && (
-                            <span className="header-badge">{cartItemCount}</span>
-                        )}
-                    </NavLink>
-                </li>
-            </ul>
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-            {(location.pathname === "/" || location.pathname.startsWith("/search")) && (
-                <div className="header-serch-container">
+    return (
+        <header className="header-custom">
+            <nav className="navbar navbar-expand-lg navbar-light px-4 py-3">
+                <div className="container-fluid">
+                    {/*<!-- Brand -->*/}
+                    <a className="navbar-brand fw-bold fs-4 d-flex align-items-center" href="/">
+                        <span className="text-success me-2">🍃</span>
+                        Sapori d'Italia
+                    </a>
+
+                    {/*<!-- Toggler/collapsible Button -->*/}
                     <button
-                        className="header-discount-button"
-                        onClick={() => setOnlyDiscounted(prev => !prev)}>
-                        {onlyDiscounted ? "Mostra tutti" : "Prodotti in promozione"}
+                        className="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarNav"
+                        aria-controls="navbarNav"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation"
+                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    >
+                        <span className="navbar-toggler-icon"></span>
                     </button>
-                    <SearchBar />
+
+                    {/*<!-- Navbar links -->*/}
+                    <div className={`collapse navbar-collapse ${isMobileMenuOpen ? 'show' : ''}`} id="navbarNav">
+                        <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+                            <li className="nav-item">
+                                <NavLink
+                                    className={`nav-link ${location.pathname === "/" ? "active" : ""}`}
+                                    to={"/"}
+                                >
+                                    Home
+                                </NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink
+                                    className={`nav-link ${location.pathname === "/wishlist" ? "active" : ""}`}
+                                    to={"/wishlist"}
+                                >
+                                    Lista dei desideri
+                                    {wishlistItemCount > 0 && (
+                                        <span className="badge bg-danger rounded-pill ms-1">
+                                            {wishlistItemCount}
+                                        </span>
+                                    )}
+                                </NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink
+                                    className={`nav-link ${location.pathname === "/cart" ? "active" : ""}`}
+                                    to={"/cart"}
+                                >
+                                    Carrello
+                                    {cartItemCount > 0 && (
+                                        <span className="badge bg-danger rounded-pill ms-1">
+                                            {cartItemCount}
+                                        </span>
+                                    )}
+                                </NavLink>
+                            </li>
+                        </ul>
+                    </div>
+
+                    {/*<!-- Search and discount section -->*/}
+                    <div className="d-none d-lg-flex align-items-center ms-4">
+                        {(location.pathname === "/" || location.pathname.startsWith("/search")) && (
+                            <div className="d-flex align-items-center gap-3">
+                                <button
+                                    className="btn btn-outline-success me-2"
+                                    onClick={() => setOnlyDiscounted(prev => !prev)}>
+                                    {onlyDiscounted ? "Mostra tutti" : "Prodotti in promozione"}
+                                </button>
+                                <SearchBar />
+                            </div>
+                        )}
+                    </div>
                 </div>
-            )}
+            </nav>
         </header>
     )
 }
