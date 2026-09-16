@@ -18,6 +18,9 @@ import ProductCard from "../components/ProductCard";
 
 function HomePage() {
 
+    //env var
+    const apiUrl = import.meta.env.VITE_API_URL;
+
     //importiamo gli elementi che ci servono tramite la useContext
     const { products, fetchProducts, fetchRegions, setIsLoading, regions, onlyDiscounted, setOnlyDiscounted } = useGlobal();
 

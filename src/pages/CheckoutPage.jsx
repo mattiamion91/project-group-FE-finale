@@ -7,6 +7,9 @@ import { useGlobal } from "../context/GlobalContext";
 //import useState 
 import { useState, useEffect } from "react";
 
+//env var
+const apiUrl = import.meta.env.VITE_API_URL;
+
 function CheckoutPage() {
 
     //importiamo gli elementi che ci servono tramite la useContext
