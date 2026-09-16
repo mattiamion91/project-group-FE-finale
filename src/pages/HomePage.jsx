@@ -37,7 +37,7 @@ function HomePage() {
 
         setIsLoading(true);
 
-        axios.get("http://localhost:3000/api/products/favorites")
+        axios.get(`${apiUrl}/api/products/favorites`)
             .then(res => {
                 console.log("FAVORITES API:", res.data);
                 setFavorites(res.data);
@@ -54,7 +54,7 @@ function HomePage() {
 
         setIsLoading(true);
 
-        axios.get("http://localhost:3000/api/products/oils")
+        axios.get(`${apiUrl}/api/products/oils`)
             .then(res => {
                 setOils(res.data);
             })
@@ -70,7 +70,7 @@ function HomePage() {
 
         setIsLoading(true);
 
-        axios.get("http://localhost:3000/api/products/random")
+        axios.get(`${apiUrl}/api/products/random`)
             .then(res => {
                 setRandomProducts(res.data);
             })
@@ -122,7 +122,7 @@ function HomePage() {
     useEffect(() => {
         if (onlyDiscounted) {
             setIsLoading(true);
-            axios.get("http://localhost:3000/api/products/discounted")
+            axios.get(`${apiUrl}/api/products/discounted`)
                 .then(res => {
                     // Assicurati che sia un array
                     const data = Array.isArray(res.data) ? res.data : res.data.results || [];

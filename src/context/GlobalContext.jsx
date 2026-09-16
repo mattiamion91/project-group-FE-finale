@@ -7,6 +7,9 @@ import axios from "axios";
 //salviamo su una variabile il createContext
 const GlobalContext = createContext();
 
+//env var
+const apiUrl = import.meta.env.VITE_API_URL;
+
 function GlobalProvider({ children }) {
 
     //creo una varibnile di stato per filtrare i prodotti in sconto
@@ -16,10 +19,10 @@ function GlobalProvider({ children }) {
     const [isLoading, setIsLoading] = useState(false);
 
     //creazione varibile endpoint in un salvare l'API
-    const endpointIndexProducts = "http://localhost:3000/api/products";
+    const endpointIndexProducts = `${apiUrl}/api/products`;
 
     //creazione varibile endpoint in un salvare l'API
-    const endpointRegions = "http://localhost:3000/api/regions";
+    const endpointRegions = `${apiUrl}/api/regions`;
 
     //creazione varbile di stato come un array vuoto
     const [products, setProducts] = useState([]);
@@ -169,7 +172,7 @@ function GlobalProvider({ children }) {
         try {
             //facciamo partire una chiamata al backend per validare il codice sconto
             const response = await axios.post(
-                "http://localhost:3000/api/discounts/validate",
+                `${apiUrl}/api/discounts/validate`,
                 { code: discountCode }
             );
 
@@ -197,7 +200,7 @@ function GlobalProvider({ children }) {
         try {
             //facciamo una chiamata POST al backend alla rotta /calculate-shipping, inviamo i prodotti del carrello come body della richiesta
             const response = await axios.post(
-                "http://localhost:3000/api/orders/calculate-shipping",
+                `${apiUrl}/api/orders/calculate-shipping`,
                 { products }
             );
 

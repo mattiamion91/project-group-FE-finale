@@ -16,7 +16,7 @@ function CheckoutPage() {
     const [sameAsShipping, setSameAsShipping] = useState(true);
 
     //creazione varibile endpoint in un salvare l'API
-    const endpointCheckout = "http://localhost:3000/api/orders/checkout";
+    const endpointCheckout = `${apiUrl}/api/orders/checkout`;
 
     //funzione di validaizone
     function validateFields(data) {
